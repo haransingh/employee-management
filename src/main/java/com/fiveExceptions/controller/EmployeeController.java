@@ -16,15 +16,28 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @PostMapping
+    @PostMapping("/employees")
     @ResponseStatus(HttpStatus.CREATED)
     public void createEmployee(@RequestBody EmployeeRequest employeeRequest) {
         employeeService.createEmployee(employeeRequest);
     }
 
-    @GetMapping
+    @GetMapping("/employees")
     @ResponseStatus(HttpStatus.OK)
     public List<EmployeeResponse> getAllEmployee() {
         return employeeService.getAllEmployee();
     }
+
+    @GetMapping("/employees/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public EmployeeResponse getEmployee(@PathVariable Long id) {
+        return employeeService.getEmployee(id);
+    }
+
+    @PutMapping("/employees/{id}")
+    public void updateEmployee(@RequestBody EmployeeRequest employeeRequest, @PathVariable Long id) {
+        employeeService.updateEmployee(employeeRequest, id);
+    }
+
+
 }

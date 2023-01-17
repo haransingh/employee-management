@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -46,4 +47,18 @@ public class EmployeeService {
     }
 
 
+    public EmployeeResponse getEmployee(Long id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+        return employee.map(value -> EmployeeResponse.builder()
+                .id(value.getId())
+                .firstName(value.getFirstName())
+                .lastName(value.getLastName())
+                .email(value.getEmail())
+                .department(value.getDepartment())
+                .build()).orElse(null);
+    }
+
+    public void updateEmployee(EmployeeRequest employeeRequest, Long id) {
+        
+    }
 }
