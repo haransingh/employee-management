@@ -58,7 +58,42 @@ public class EmployeeService {
                 .build()).orElse(null);
     }
 
-    public void updateEmployee(EmployeeRequest employeeRequest, Long id) {
-        
+    public EmployeeResponse updateEmployee(EmployeeRequest employeeRequest, Long id) {
+        employeeRepository.findById(id).map(employee -> {
+            employee.setFirstName(employeeRequest.getFirstName());
+            employee.setLastName((employeeRequest.getLastName()));
+            employee.setEmail(employeeRequest.getEmail());
+            employee.setDepartment(employeeRequest.getDepartment());
+            employeeRepository.save(employee);
+            return EmployeeResponse
+                    .builder()
+                    .id(employee.getId())
+                    .firstName(employee.getFirstName())
+                    .lastName(employee.getLastName())
+                    .email(employee.getEmail())
+                    .department(employee.getDepartment())
+                    .build();
+        }).orElseGet(() -> {
+            Employee employee = Employee.builder()
+                    .firstName(employeeRequest.getFirstName())
+                    .lastName(employeeRequest.getLastName())
+                    .email(employeeRequest.getEmail())
+                    .department(employeeRequest.getDepartment())
+                    .build();
+            employeeRepository.save(employee);
+            return EmployeeResponse
+                    .builder()
+                    .id(employee.getId())
+                    .firstName(employee.getFirstName())
+                    .lastName(employee.getLastName())
+                    .email(employee.getEmail())
+                    .department(employee.getDepartment())
+                    .build();
+        });
+        return null;
+    }
+
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
     }
 }
