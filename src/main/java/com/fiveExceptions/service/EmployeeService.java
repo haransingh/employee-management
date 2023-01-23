@@ -73,22 +73,6 @@ public class EmployeeService {
                     .email(employee.getEmail())
                     .department(employee.getDepartment())
                     .build();
-        }).orElseGet(() -> {
-            Employee employee = Employee.builder()
-                    .firstName(employeeRequest.getFirstName())
-                    .lastName(employeeRequest.getLastName())
-                    .email(employeeRequest.getEmail())
-                    .department(employeeRequest.getDepartment())
-                    .build();
-            employeeRepository.save(employee);
-            return EmployeeResponse
-                    .builder()
-                    .id(employee.getId())
-                    .firstName(employee.getFirstName())
-                    .lastName(employee.getLastName())
-                    .email(employee.getEmail())
-                    .department(employee.getDepartment())
-                    .build();
         });
         return null;
     }
