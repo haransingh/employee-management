@@ -38,7 +38,7 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/user/create", "/api/v1/user/authentication").permitAll()
+                .requestMatchers( "/v3/api-docs", "/v1/api/weather", "/api/v1/user/create", "/api/v1/user/authentication", "/api/v1/employee/employees/welcome").permitAll()
                 .and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/**")
                 .authenticated()
