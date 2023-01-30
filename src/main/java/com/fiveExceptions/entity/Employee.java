@@ -1,9 +1,6 @@
 package com.fiveExceptions.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +18,10 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String email;
-    private String department;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
+    @Column(columnDefinition="tinyint(1) default 1")
+    private boolean status;
 }

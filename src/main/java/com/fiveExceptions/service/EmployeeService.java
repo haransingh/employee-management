@@ -18,7 +18,7 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public void createEmployee(EmployeeRequest employeeRequest) {
+    public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) {
         Employee employee = Employee.builder()
                 .firstName(employeeRequest.getFirstName())
                 .lastName(employeeRequest.getLastName())
@@ -26,8 +26,14 @@ public class EmployeeService {
                 .department(employeeRequest.getDepartment())
                 .build();
         employeeRepository.save(employee);
-        log.info("Employee {} is saved", employee.getId());
 
+        return EmployeeResponse.builder()
+                .id(employee.getId())
+                .firstName(employee.getFirstName())
+                .lastName(employeeRequest.getLastName())
+                .email(employeeRequest.getEmail())
+                .department(employee.getDepartment())
+                .build();
     }
 
     public List<EmployeeResponse> getAllEmployee() {
