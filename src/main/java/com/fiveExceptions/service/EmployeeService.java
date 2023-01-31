@@ -3,9 +3,11 @@ package com.fiveExceptions.service;
 import com.fiveExceptions.dto.EmployeeRequest;
 import com.fiveExceptions.dto.EmployeeResponse;
 import com.fiveExceptions.entity.Employee;
+import com.fiveExceptions.exception.EmployeeNotFoundException;
 import com.fiveExceptions.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,8 +55,13 @@ public class EmployeeService {
     }
 
 
-    public EmployeeResponse getEmployee(Long id) {
+    public EmployeeResponse getEmployee(Long id) throws EmployeeNotFoundException {
         Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent()) {
+
+        } else {
+            throw new EmployeeNotFoundException("Employee not found with id " + id);
+        }
         return employee.map(value -> EmployeeResponse.builder()
                 .id(value.getId())
                 .firstName(value.getFirstName())

@@ -1,5 +1,6 @@
 package com.fiveExceptions.dto;
 
+import com.fiveExceptions.entity.Department;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,5 @@ public class EmployeeResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private String department;
+    private Department department;
 }

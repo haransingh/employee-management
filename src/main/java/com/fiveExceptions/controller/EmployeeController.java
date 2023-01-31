@@ -2,9 +2,12 @@ package com.fiveExceptions.controller;
 
 import com.fiveExceptions.dto.EmployeeRequest;
 import com.fiveExceptions.dto.EmployeeResponse;
+import com.fiveExceptions.exception.EmployeeNotFoundException;
 import com.fiveExceptions.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -16,33 +19,23 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-//    @Autowired
-//    private RabbitTemplate rabbitTemplate;
-
     @PostMapping("/create")
-    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public EmployeeResponse createEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        try {
-            return employeeService.createEmployee(employeeRequest);
-        } catch (Exception e) {
-            System.out.println("Something went wrong!");
-        }
-        return null;
+    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody @Valid EmployeeRequest employeeRequest) {
+        return new ResponseEntity<>(employeeService.createEmployee(employeeRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/employees")
-    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/get-all")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<EmployeeResponse> getAllEmployee() {
-        return employeeService.getAllEmployee();
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployee() {
+        return ResponseEntity.ok(employeeService.getAllEmployee());
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public EmployeeResponse getEmployee(@PathVariable Long id) {
-        return employeeService.getEmployee(id);
+    public ResponseEntity<EmployeeResponse> getEmployee(@PathVariable Long id) throws EmployeeNotFoundException {
+        return ResponseEntity.ok(employeeService.getEmployee(id));
     }
 
     @PutMapping("/employees/{id}")

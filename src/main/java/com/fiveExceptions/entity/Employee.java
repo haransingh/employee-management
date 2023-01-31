@@ -19,8 +19,9 @@ public class Employee {
     private String lastName;
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @OneToOne
     private Department department;
     @Column(columnDefinition="tinyint(1) default 1")
     private boolean status;
