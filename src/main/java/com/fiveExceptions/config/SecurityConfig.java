@@ -26,11 +26,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final String[] permittedRouts = {
-            "/v3/api-docs",
+            "/api-docs/**",
             "/v1/api/weather",
             "/api/v1/user/create",
             "/api/v1/user/authentication",
-            "/api/v1/employee/employees/welcome"
+            "/swagger-ui/**"
     };
 
     @Autowired

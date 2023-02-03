@@ -2,12 +2,13 @@ package com.fiveExceptions.service;
 
 import com.fiveExceptions.dto.EmployeeRequest;
 import com.fiveExceptions.dto.EmployeeResponse;
+import com.fiveExceptions.entity.Department;
 import com.fiveExceptions.entity.Employee;
 import com.fiveExceptions.exception.EmployeeNotFoundException;
+import com.fiveExceptions.repository.DepartmentRepository;
 import com.fiveExceptions.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,13 +20,15 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
 
     public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) {
+        Department department = departmentRepository.findById(employeeRequest.getDepartmentId()).orElse(null);
         Employee employee = Employee.builder()
                 .firstName(employeeRequest.getFirstName())
                 .lastName(employeeRequest.getLastName())
                 .email(employeeRequest.getEmail())
-                .department(employeeRequest.getDepartment())
+                .department(department)
                 .build();
         employeeRepository.save(employee);
 
@@ -57,6 +60,9 @@ public class EmployeeService {
 
     public EmployeeResponse getEmployee(Long id) throws EmployeeNotFoundException {
         Optional<Employee> employee = employeeRepository.findById(id);
+        System.out.println("employee isEmpty " + employee.isEmpty());
+        System.out.println("employee isPresent " + employee.isPresent());
+
         if (employee.isPresent()) {
 
         } else {
@@ -72,11 +78,12 @@ public class EmployeeService {
     }
 
     public EmployeeResponse updateEmployee(EmployeeRequest employeeRequest, Long id) {
+        Department department = departmentRepository.findById(employeeRequest.getDepartmentId()).orElse(null);
         employeeRepository.findById(id).map(employee -> {
             employee.setFirstName(employeeRequest.getFirstName());
             employee.setLastName((employeeRequest.getLastName()));
             employee.setEmail(employeeRequest.getEmail());
-            employee.setDepartment(employeeRequest.getDepartment());
+            employee.setDepartment(department);
             employeeRepository.save(employee);
             return EmployeeResponse
                     .builder()

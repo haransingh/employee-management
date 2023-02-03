@@ -1,6 +1,5 @@
 package com.fiveExceptions.dto;
 
-import com.fiveExceptions.entity.Department;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,5 +17,5 @@ public class EmployeeRequest {
     @Email
     @NotBlank
     private String email;
-    private Department department;
+    private Long departmentId;
 }

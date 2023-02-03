@@ -1,12 +1,11 @@
 package com.fiveExceptions.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +16,9 @@ public class Department {
     @Id
     @GeneratedValue
     private Long id;
-    private String name; 
+    private String name;
+
+    @OneToMany
+    private Set<Employee> employees;
+
 }
