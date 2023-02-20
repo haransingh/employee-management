@@ -8,7 +8,14 @@ import com.fiveExceptions.exception.EmployeeNotFoundException;
 import com.fiveExceptions.repository.DepartmentRepository;
 import com.fiveExceptions.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,13 +23,17 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-@Slf4j
+@Log4j2
 public class EmployeeService {
+
+   // private static final Logger log =  LogManager.getLogger(EmployeeService.class);
+
 
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
 
     public EmployeeResponse createEmployee(EmployeeRequest employeeRequest) {
+        log.info("createEmployee employee");
         Department department = departmentRepository.findById(employeeRequest.getDepartmentId()).orElse(null);
         Employee employee = Employee.builder()
                 .firstName(employeeRequest.getFirstName())
@@ -42,7 +53,10 @@ public class EmployeeService {
     }
 
     public List<EmployeeResponse> getAllEmployee() {
-        List<Employee> employees = employeeRepository.findAll();
+        Optional<Department> department = departmentRepository.findById(1L);
+
+        //List<Employee> employees = employeeRepository.findActiveEmployees(false, department);
+        List<Employee> employees = employeeRepository.findByStatusIsFalse();
 
         return employees.stream().map(this::mapToEmployeeResponse) .toList();
     }

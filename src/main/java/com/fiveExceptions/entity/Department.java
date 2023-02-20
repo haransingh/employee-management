@@ -18,7 +18,4 @@ public class Department {
     private Long id;
     private String name;
 
-    @OneToMany
-    private Set<Employee> employees;
-
 }

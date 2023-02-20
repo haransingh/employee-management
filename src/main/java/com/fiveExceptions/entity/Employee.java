@@ -24,5 +24,5 @@ public class Employee {
     private Department department;
 
     @Column(columnDefinition="tinyint(1) default 1")
-    private boolean status;
+    private Boolean status;
 }
