@@ -26,7 +26,7 @@ import java.util.Optional;
 @Log4j2
 public class EmployeeService {
 
-   // private static final Logger log =  LogManager.getLogger(EmployeeService.class);
+    private static final Logger log =  LogManager.getLogger(EmployeeService.class);
 
 
     private final EmployeeRepository employeeRepository;
@@ -42,7 +42,6 @@ public class EmployeeService {
                 .department(department)
                 .build();
         employeeRepository.save(employee);
-
         return EmployeeResponse.builder()
                 .id(employee.getId())
                 .firstName(employee.getFirstName())

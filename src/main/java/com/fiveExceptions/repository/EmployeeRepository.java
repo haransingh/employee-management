@@ -13,10 +13,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    Employee findByEmail(String email);
+    Optional<Employee> findByEmail(String email);
 
 //    @Query("select e from Employee e where e.status = ?1 and e.department = ?2")
 //    List<Employee> findActiveEmployees(Boolean status, Optional<Department> depart);
+
+    @Query(
+            value = "SELECT * FROM EMPLOYEE",
+            nativeQuery = true
+    )
+    List<Employee> getAllEmp();
+
+
+
 
     @Query("select e from Employee e where e.status = :status and e.department = :depart")
     List<Employee> findActiveEmployees(
